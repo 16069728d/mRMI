@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mRMI (Modified Rivermead Mobility Index)</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; }
+    h1 { color: #003366; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+    select { width: 80px; }
+    .score { font-weight: bold; color: darkgreen; }
+  </style>
+</head>
+<body>
+  <h1>Modified Rivermead Mobility Index (mRMI)</h1>
+  <p><strong>Derived from:</strong> Lennon & Johnson (2000)  
+     <br><strong>Scoring:</strong> 0–5 per item (Total 0–40)
+  </p>
+  
+  <table>
+    <tr><th>Item</th><th>Score (0–5)</th></tr>
+    <tbody id="mRMI-items"></tbody>
+  </table>
+  
+  <h2>Total Score: <span id="total" class="score">0</span> / 40</h2>
+  
+  <script>
+    const items = [
+      "Turning over",
+      "Lying to sitting",
+      "Sitting balance",
+      "Sitting to standing",
+      "Standing",
+      "Transfers",
+      "Walking indoors",
+      "Stairs"
+    ];
+
+    const table = document.getElementById('mRMI-items');
+    items.forEach((item, i) => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${i + 1}. ${item}</td>
+        <td>
+          <select class="score-select">
+            <option value="0">0 – unable to perform</option>
+            <option value="1">1 – assistance of 2 people</option>
+            <option value="2">2 – assistance of 1 person</option>
+            <option value="3">3 – requires supervision</option>
+            <option value="4">4 – requires an aid</option>
+            <option value="5">5 – independent</option>
+          </select>
+        </td>
+      `;
+      table.appendChild(row);
+    });
+
+    const selects = document.querySelectorAll('.score-select');
+    selects.forEach(sel => sel.addEventListener('change', updateTotal));
+
+    function updateTotal() {
+      let total = 0;
+      selects.forEach(sel => total += Number(sel.value));
+      document.getElementById('total').textContent = total;
+    }
+  </script>
+</body>
+</html>
