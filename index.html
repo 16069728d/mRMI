@@ -1,70 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>mRMI (Modified Rivermead Mobility Index)</title>
-  <style>
-    body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; }
-    h1 { color: #003366; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
-    select { width: 80px; }
-    .score { font-weight: bold; color: darkgreen; }
-  </style>
-</head>
-<body>
-  <h1>Modified Rivermead Mobility Index (mRMI)</h1>
-  <p><strong>Derived from:</strong> Lennon & Johnson (2000)  
-     <br><strong>Scoring:</strong> 0–5 per item (Total 0–40)
-  </p>
-  
-  <table>
-    <tr><th>Item</th><th>Score (0–5)</th></tr>
-    <tbody id="mRMI-items"></tbody>
-  </table>
-  
-  <h2>Total Score: <span id="total" class="score">0</span> / 40</h2>
-  
-  <script>
-    const items = [
-      "Turning over",
-      "Lying to sitting",
-      "Sitting balance",
-      "Sitting to standing",
-      "Standing",
-      "Transfers",
-      "Walking indoors",
-      "Stairs"
-    ];
+/* Container for the 0-5 buttons */
+.score-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr); /* 6 equal columns for 0-5 */
+  gap: 8px;
+  margin: 10px 0;
+}
 
-    const table = document.getElementById('mRMI-items');
-    items.forEach((item, i) => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${i + 1}. ${item}</td>
-        <td>
-          <select class="score-select">
-            <option value="0">0 – unable to perform</option>
-            <option value="1">1 – assistance of 2 people</option>
-            <option value="2">2 – assistance of 1 person</option>
-            <option value="3">3 – requires supervision</option>
-            <option value="4">4 – requires an aid</option>
-            <option value="5">5 – independent</option>
-          </select>
-        </td>
-      `;
-      table.appendChild(row);
-    });
+/* Hide the actual radio circle */
+.score-grid input[type="radio"] {
+  display: none;
+}
 
-    const selects = document.querySelectorAll('.score-select');
-    selects.forEach(sel => sel.addEventListener('change', updateTotal));
+/* Style the boxes */
+.score-grid label span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.2rem;
+  transition: all 0.2s ease;
+  background-color: #f9f9f9;
+}
 
-    function updateTotal() {
-      let total = 0;
-      selects.forEach(sel => total += Number(sel.value));
-      document.getElementById('total').textContent = total;
-    }
-  </script>
-</body>
-</html>
+/* Hover effect */
+.score-grid label:hover span {
+  background-color: #eef2ff;
+  border-color: #4f46e5;
+}
+
+/* Selection effect (When radio is checked) */
+.score-grid input[type="radio"]:checked + span {
+  background-color: #4f46e5;
+  color: white;
+  border-color: #4f46e5;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Labels at the bottom for clarity */
+.grid-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #666;
+  padding: 0 5px;
+}
